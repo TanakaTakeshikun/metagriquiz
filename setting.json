@@ -1,0 +1,19 @@
+{
+  "bot": {
+    "serverid":"1180301484206866532",
+    "channelid":"1194134990720618536",
+    "embed": {
+      "Footer": {
+        "CR": "©️ 2025 Metaguri研究所"
+      }
+    }
+  },
+  "quiz": {
+    "resetTime": "23",
+    "timeZone": "Asia/Tokyo"
+  },
+  "db":{
+    "name":"test.db",
+    "tabel":"quiz"
+  }
+}
