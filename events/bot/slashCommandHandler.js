@@ -23,14 +23,14 @@ module.exports = {
             try {
                 await command.execute(interaction);
             } catch (err) {
-                if (err.message === "Missing Permissions") return await interaction.reply({ embeds: [permissions_embed], ephemeral: true }).catch(() => { });
+                if (err.message === "Missing Permissions") return await interaction.reply({ embeds: [permissions_embed], flags: 'Ephemeral' }).catch(() => { });
                 console.error(err);
                 const unknown_embed = new CustomEmbed()
                     .setTitle("⚠️エラー")
                     .setDescription(`不明なエラーが発生しました。\n詳細:${err.message}\n運営に問い合わせていただけると幸いです。`)
                     .setColor(Colors.Red)
                     .create();
-                await interaction?.reply({ embeds: [unknown_embed], ephemeral: true }).catch(() => { });
+                await interaction?.reply({ embeds: [unknown_embed], flags: 'Ephemeral' }).catch(() => { });
             };
         }
     }

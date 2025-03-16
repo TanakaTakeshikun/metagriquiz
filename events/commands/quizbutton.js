@@ -15,14 +15,14 @@ module.exports = {
                 .setDescription(`解説:${quiz[quizId].explanation}`)
                 .setColor(Colors.Green)
                 .create();
-            interaction.reply({ embeds: [embed] })
+            interaction.reply({ embeds: [embed], flags: 'Ephemeral' })
         } else {
             const embed = new CustomEmbed()
                 .setTitle("✖不正解")
                 .setDescription(`正解:${quiz[quizId].answer}\n解説:${quiz[quizId].explanation}`)
                 .setColor(Colors.Red)
                 .create();
-            interaction.reply({ embeds: [embed] })
+            interaction.reply({ embeds: [embed], flags: 'Ephemeral' })
         };
     }
 };
