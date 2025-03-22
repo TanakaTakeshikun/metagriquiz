@@ -1,6 +1,6 @@
 const { CustomEmbed } = require('../libs');
-const quiz = require("../quiz.json");
-const { ButtonBuilder, ButtonStyle, ActionRowBuilder } = require("discord.js");
+const quiz = require('../quiz.json');
+const { ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
 
 function createquiz(number) {
   const embed =
@@ -8,19 +8,19 @@ function createquiz(number) {
       .setTitle(`カテゴリー:${quiz[number].category}`)
       .setDescription(`${quiz[number].question}\n正解だと思う選択肢のボタンを押してください。`)
       .addFields([{
-        name: "",
+        name: '',
         value: `1:${quiz[number].choices1}`
       },
       {
-        name: "",
+        name: '',
         value: `2:${quiz[number].choices2}`
       },
       {
-        name: "",
+        name: '',
         value: `3:${quiz[number].choices3}`
       },
       {
-        name: "",
+        name: '',
         value: `4:${quiz[number].choices4}`
       }])
       .create();

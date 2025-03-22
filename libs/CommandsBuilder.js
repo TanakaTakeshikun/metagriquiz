@@ -1,10 +1,10 @@
-const { Base, Collection, SlashCommandBuilder, SlashCommandSubcommandBuilder, SlashCommandSubcommandGroupBuilder } = require("discord.js");
-const fs = require("node:fs");
-const path = require("node:path");
+const { Base, Collection, SlashCommandBuilder, SlashCommandSubcommandBuilder, SlashCommandSubcommandGroupBuilder } = require('discord.js');
+const fs = require('node:fs');
+const path = require('node:path');
 
 function getCommandDatas(obj) {
-    if (typeof obj !== "string") return obj;
-    const commandFiles = fs.readdirSync(obj).filter(file => file.endsWith(".js"));
+    if (typeof obj !== 'string') return obj;
+    const commandFiles = fs.readdirSync(obj).filter(file => file.endsWith('.js'));
     return commandFiles.map((commandFile) => require(path.resolve(obj, commandFile)));
 }
 
@@ -59,14 +59,14 @@ class Command extends Base {
     constructor(client, data, Log) {
         super(client);
         this.logger = Log.createChild(data.builder(new SlashCommandBuilder()).name);
-        if ("subcommandGroups" in data) {
+        if ('subcommandGroups' in data) {
             this.subcommandGroups = new Collection();
             getCommandDatas(data.subcommandGroups).forEach(subcommandGroupData => {
                 const subcommandGroup = new SubcommandGroup(subcommandGroupData, this);
                 this.subcommandGroups.set(subcommandGroup.name, subcommandGroup);
             });
         }
-        if ("subcommands" in data) {
+        if ('subcommands' in data) {
             this.subcommands = new Collection();
             getCommandDatas(data.subcommands).forEach(subcommandData => {
                 const subcommand = new Subcommand(subcommandData, this);
@@ -107,8 +107,8 @@ class Command extends Base {
 }
 
 function CommandsBuilder(client, commandsPath) {
-    const Log = client.logger.createChannel("command");
-    Log.info("Loading...");
+    const Log = client.logger.createChannel('command');
+    Log.info('Loading...');
     const commands = new Collection();
     fs.readdirSync(commandsPath).forEach((categoryDir) => {
         Log.debug(`Loading category ${categoryDir}...`);

@@ -1,5 +1,5 @@
-const { Colors, EmbedBuilder } = require("discord.js");
-const setting = require("../setting.json");
+const { Colors, EmbedBuilder } = require('discord.js');
+const setting = require('../setting.json');
 
 class CustomEmbed extends EmbedBuilder {
   constructor(text) {
@@ -10,12 +10,12 @@ class CustomEmbed extends EmbedBuilder {
     this.date = new Date()
   }
   typeSuccess() {
-    this.setTitle("✅成功");
+    this.setTitle('✅成功');
     this.setColor(Colors.Green);
     return this;
   }
   typeError() {
-    this.setTitle("⚠エラー");
+    this.setTitle('⚠エラー');
     this.setColor(Colors.Red);
     return this;
   }

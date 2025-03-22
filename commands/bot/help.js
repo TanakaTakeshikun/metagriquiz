@@ -30,8 +30,8 @@ module.exports = {
       });
       const fields = Object.entries(categoryCommands).map(data => { return { name: data[0], value: data[1][0][0] } });
       const embed = new CustomEmbed()
-        .setTitle("help")
-        .setColor("#fb644c")
+        .setTitle('help')
+        .setColor('#fb644c')
         .addFields(fields)
         .create();
       console.log(embed)

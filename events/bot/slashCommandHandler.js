@@ -1,8 +1,8 @@
 const { Events, Colors } = require('discord.js');
-const { CustomEmbed } = require("../../libs");
+const { CustomEmbed } = require('../../libs');
 const permissions_embed = new CustomEmbed()
-    .setTitle("⚠️エラー")
-    .setDescription("権限が足りません。\nBOTに権限を与えてください")
+    .setTitle('⚠️エラー')
+    .setDescription('権限が足りません。\nBOTに権限を与えてください')
     .setColor(Colors.Red)
     .create();
 module.exports = {
@@ -23,10 +23,10 @@ module.exports = {
             try {
                 await command.execute(interaction);
             } catch (err) {
-                if (err.message === "Missing Permissions") return await interaction.reply({ embeds: [permissions_embed], flags: 'Ephemeral' }).catch(() => { });
+                if (err.message === 'Missing Permissions') return await interaction.reply({ embeds: [permissions_embed], flags: 'Ephemeral' }).catch(() => { });
                 console.error(err);
                 const unknown_embed = new CustomEmbed()
-                    .setTitle("⚠️エラー")
+                    .setTitle('⚠️エラー')
                     .setDescription(`不明なエラーが発生しました。\n詳細:${err.message}\n運営に問い合わせていただけると幸いです。`)
                     .setColor(Colors.Red)
                     .create();

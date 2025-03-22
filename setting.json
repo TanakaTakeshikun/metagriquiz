@@ -9,7 +9,7 @@
     }
   },
   "quiz": {
-    "resetTime": "23",
+    "resetTime": "12",
     "timeZone": "Asia/Tokyo"
   },
   "db":{

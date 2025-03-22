@@ -1,5 +1,5 @@
-const {  Guild, Channel, GuildMember, Snowflake, Message, CommandInteraction, Base } = require("discord.js");
-const { LoggerChannel } = require("../Logger");
+const {  Guild, Channel, GuildMember, Snowflake, Message, CommandInteraction, Base } = require('discord.js');
+const { LoggerChannel } = require('../Logger');
 
 class CommandManager extends Base {
     constructor(client, name, subcommand1, subcommand2) {
@@ -8,7 +8,7 @@ class CommandManager extends Base {
         if (!this._baseCommand) return;
         const subcommandNames = [subcommand1, subcommand2];
         let subcommands = this._baseCommand.subcommands;
-        if ("subcommandGroups" in this._baseCommand) {
+        if ('subcommandGroups' in this._baseCommand) {
             const parentGroup = this._baseCommand.subcommandGroups.get(subcommandNames[0]);
             if (parentGroup) {
                 subcommandNames.shift();
@@ -132,7 +132,7 @@ class CommandManager extends Base {
      * コマンドのプレフィックス
      * @type {string}
      */
-    prefix = "/";
+    prefix = '/';
 
     /**
      * コマンドの引数 (引数がない時はnull)

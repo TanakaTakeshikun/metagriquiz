@@ -1,17 +1,17 @@
-const fs = require("node:fs");
-const path = require("node:path");
-const logger = require("../helpers/getLogger");
+const fs = require('node:fs');
+const path = require('node:path');
+const logger = require('../helpers/getLogger');
 
 function EventHandler(client, eventsPath) {
-    const Log = logger.createChannel("event");
-    Log.info("Loading...");
+    const Log = logger.createChannel('event');
+    Log.info('Loading...');
     const events = [];
     const eventsMap = new Map();
     fs.readdirSync(eventsPath).forEach((dir) => {
         Log.debug(`Loading ${dir}...`);
         const eventsLog = Log.createChild(dir);
         const eventPath = path.resolve(eventsPath, dir);
-        const eventFiles = fs.readdirSync(eventPath).filter(file => file.endsWith(".js"));
+        const eventFiles = fs.readdirSync(eventPath).filter(file => file.endsWith('.js'));
         for (const file of eventFiles) {
             eventsLog.debug(`Loading ${dir} ${file}...`);
             const event = require(path.resolve(eventPath, file));

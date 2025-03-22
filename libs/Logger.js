@@ -1,13 +1,13 @@
 function padZero(num, length) {
-    return num.toString().padStart(length, "0");
+    return num.toString().padStart(length, '0');
 }
 
 const defaultOption = {
-    levels: ["fatal", "error", "warn", "info", "debug"],
+    levels: ['fatal', 'error', 'warn', 'info', 'debug'],
     timeFormat: (d) => `${padZero(d.getHours(), 2)}:${padZero(d.getMinutes(), 2)}:${padZero(d.getSeconds(), 2)}`,
     writeLog: (data) => {
         const { lines, level, time, location } = data;
-        console.log(`[${time}][${location.join("][")}] [${level}] ${lines.join(" ")}`);
+        console.log(`[${time}][${location.join('][')}] [${level}] ${lines.join(' ')}`);
         return true;
     }
 };
