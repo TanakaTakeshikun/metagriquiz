@@ -11,6 +11,7 @@ module.exports = {
         const quizId = buttonCode[1];
         const answer = buttonCode[2];
         const user_data = await sql.find({ uid: interaction.user.id, type: 'members' });
+        const allcount = user_data?.allcount || 0
         if (answer === 'answer') {
             const embed = new CustomEmbed()
                 .setTitle('正答')
@@ -27,12 +28,11 @@ module.exports = {
                 .create();
             return interaction.reply({ embeds: [embed], flags: 'Ephemeral' });
         };
-
         if (quiz[quizId].answer == answer) {
             if (user_data?.uid) {
-                sql.update({ uid: interaction.user.id, count: user_data.count + 1, type: 'members', mid: interaction.message.id })
+                sql.update({ uid: interaction.user.id, allcount: allcount + 1, count: user_data.count + 1, type: 'members', mid: interaction.message.id })
             } else {
-                sql.set({ uid: interaction.user.id, count: 1, type: 'members', mid: interaction.message.id });
+                sql.set({ uid: interaction.user.id, allcount: allcount + 1, count: 1, type: 'members', mid: interaction.message.id });
             };
             const embed = new CustomEmbed()
                 .setTitle('✅正解')
@@ -42,9 +42,9 @@ module.exports = {
             interaction.reply({ embeds: [embed], flags: 'Ephemeral' });
         } else {
             if (user_data?.uid) {
-                sql.update({ uid: interaction.user.id, count: user_data.count, type: 'members', mid: interaction.message.id })
+                sql.update({ uid: interaction.user.id, allcount: allcount + 1, count: user_data.count, type: 'members', mid: interaction.message.id })
             } else {
-                sql.set({ uid: interaction.user.id, count: 0, type: 'members', mid: interaction.message.id });
+                sql.set({ uid: interaction.user.id, allcount: allcount + 1, count: 0, type: 'members', mid: interaction.message.id });
             };
             const embed = new CustomEmbed()
                 .setTitle('✖不正解')

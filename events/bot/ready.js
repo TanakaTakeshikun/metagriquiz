@@ -17,7 +17,7 @@ module.exports = {
     Log.info('Deploying command...');
     const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
     rest.put(
-      Routes.applicationCommands(client.user.id),
+      Routes.applicationCommands(client.user.id, setting.bot.serverid),
       { body: commandsData },
     ).then((data) => {
       Log.info(`Deployed ${data.length} commands`);
@@ -36,7 +36,7 @@ module.exports = {
         const OldTime = new Date(last_message?.date);
         const diff = new Date(NowTime).getTime() - OldTime.getTime();
         const checkTime = (diff == NaN) ? 25 : diff / (60 * 60 * 1000);
-       if (checkTime < 24) return;
+        if (checkTime < 24) return;
         const Oldmessage = await channel.messages.fetch(last_message?.mid);
         const num = last_message?.count || 0;
         if (last_message?.mid) {
@@ -58,6 +58,6 @@ module.exports = {
           sql.set({ type: 'system', count: num + 1, mid: message.id });
         }
       }
-    }, 60 * 20);
+    }, 60 * setting.quiz.checkTime * 1000);
   }
 }
