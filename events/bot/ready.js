@@ -25,7 +25,7 @@ module.exports = {
     }).catch((error) => {
       Log.error(error)
     });
-    client.user.setPresence({ activities: [{ name: `/help`, type: ActivityType.Streaming }] });
+    client.user.setPresence({ activities: [{ name: setting.bot.activitiename, type: ActivityType.Streaming }] });
     const guild = await client.guilds.fetch(setting.bot.serverid);
     const channel = guild.channels.cache.get(setting.bot.channelid);
     setInterval(async () => {

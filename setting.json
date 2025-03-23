@@ -2,6 +2,7 @@
   "bot": {
     "serverid": "1180301484206866532",
     "channelid": "1194134990720618536",
+    "activitiename":"クイズBOT",
     "embed": {
       "Footer": {
         "CR": "©️ 2025 Metaguri研究所"

@@ -1,6 +1,6 @@
 const { CustomEmbed } = require('../libs');
 const quiz = require('../quiz.json');
-const { ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
+const { ButtonBuilder, ButtonStyle, ActionRowBuilder, Colors } = require('discord.js');
 
 function createquiz(number) {
   const embed =
@@ -23,6 +23,7 @@ function createquiz(number) {
         name: '',
         value: `4:${quiz[number].choices4}`
       }])
+      .setColor(Colors.White)
       .create();
 
   const Button1 = new ButtonBuilder()
