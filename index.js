@@ -1,7 +1,13 @@
 const { Client, GatewayIntentBits, Partials } = require('discord.js');
 const path = require('node:path');
-const { EventHandler, CommandsBuilder } = require('./libs');
+const { EventHandler, CommandsBuilder, spreadsheet } = require('./libs');
 const logger = require('./helpers/getLogger');
+const sp = new spreadsheet();
+
+const insertMany = async () => {
+    console.log(await sp.find({type:"members",uid:"a"}))
+}
+insertMany()
 require('dotenv').config()
 const client = new Client({
     intents: Object.values(GatewayIntentBits),
