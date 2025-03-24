@@ -1,25 +1,30 @@
 const { Events, Colors } = require('discord.js');
 const { CustomEmbed, spreadsheet } = require('../../libs');
+const setting = require("../../setting.json")
 const spsheet = new spreadsheet();
 const error_embed = new CustomEmbed()
-.setTitle('エラー')
-.setDescription(`不具合が発生しました。\n1分後もう一度お試しください`)
-.setColor(Colors.Red)
-.create();
+    .setTitle('エラー')
+    .setDescription(`不具合が発生しました。\n1分後もう一度お試しください`)
+    .setColor(Colors.Red)
+    .create();
 let quiz;
-(async()=>{
-  const rawdata = await spsheet.all({ type: 'quizlist' });
-  quiz = rawdata.map(({ _rawData }) => ({ category: _rawData[0], question: _rawData[1], choices1: _rawData[2], choices2: _rawData[3], choices3: _rawData[4], choices4: _rawData[5], answer: _rawData[6], qid: _rawData[7] }))
+(async () => {
+    const rawdata = await spsheet.all({ type: 'quizlist' });
+    quiz = rawdata.map(({ _rawData }) => ({ category: _rawData[0], question: _rawData[1], choices1: _rawData[2], choices2: _rawData[3], choices3: _rawData[4], choices4: _rawData[5], answer: _rawData[6], qid: _rawData[7] }))
 })();
 module.exports = {
     name: Events.InteractionCreate,
     filter: (i) => i.isButton() && i.customId.startsWith('quiz_'),
     async execute(interaction) {
+        const guild = await interaction.client.guilds.fetch(setting.bot.serverid);
+        const tokenchannel = guild.channels.cache.get(setting.bot.tokenchannel);
+        const pointchannel = guild.channels.cache.get(setting.bot.pointchannel);
+        const tokenrole = interaction.member.roles.cache.has(setting.bot.tokenroleid);
         const buttonCode = interaction.customId.split('_');
         const quizId = buttonCode[1];
         const answer = buttonCode[2];
         const user_data = await spsheet.find({ uid: interaction.user.id, type: 'members' });
-        if(!user_data) await interaction.reply({ embeds: [error_embed], flags: 'Ephemeral' });
+        if (!user_data) await interaction.reply({ embeds: [error_embed], flags: 'Ephemeral' });
         const allcount = user_data?.allcount || 0
         if (answer === 'answer') {
             const embed = new CustomEmbed()
@@ -38,10 +43,15 @@ module.exports = {
             return interaction.reply({ embeds: [embed], flags: 'Ephemeral' });
         };
         if (quiz[quizId].answer == answer) {
-            if (user_data?.uid) {
-                spsheet.update({ uid: interaction.user.id, allcount: allcount + 1, count: user_data.count + 1, type: 'members', mid: interaction.message.id })
+            if (tokenrole) {
+                tokenchannel.send(`${interaction.member}\nクイズ正解報酬<@${setting.bot.tokenbotid}>`)
             } else {
-                spsheet.set({ uid: interaction.user.id, allcount: allcount + 1, count: 1, type: 'members', mid: interaction.message.id });
+                pointchannel.send(`${interaction.member}\nクイズ正解報酬<@${setting.bot.pointbotid}>`)
+            }
+            if (user_data?.uid) {
+                spsheet.update({ uid: interaction.user.id, allcount: Number(allcount) + 1, count: Number(user_data.count) + 1, type: 'members', mid: interaction.message.id })
+            } else {
+                spsheet.set({ uid: interaction.user.id, allcount: Number(allcount || 1), count: Number(user_data.count || 1), type: 'members', mid: interaction.message.id });
             };
             const embed = new CustomEmbed()
                 .setTitle('✅正解')

@@ -3,6 +3,11 @@
     "serverid": "1180301484206866532",
     "channelid": "1194134990720618536",
     "activitiename":"クイズBOT",
+    "tokenchannel":"1353616686900711484",
+    "pointchannel":"1353616708471881789",
+    "tokenroleid":"1193881233994829874",
+    "tokenbotid":"1010895517192028280",
+    "pointobotid":"1010895517192028280",
     "embed": {
       "Footer": {
         "CR": "©️ 2025 Metaguri研究所"
