@@ -6,6 +6,4 @@ module.exports.Command = require('./Command');
 module.exports.EmbedBuild = require('./EmbedBuild');
 const EmbedUtil = require('./EmbedBuild');
 module.exports.CustomEmbed = EmbedUtil.CustomEmbed;
-const SQL = require('./SQLCommand');
-module.exports.SQLCommand = SQL.SQLCommand;
 module.exports.spreadsheet = require('./spreadsheet');

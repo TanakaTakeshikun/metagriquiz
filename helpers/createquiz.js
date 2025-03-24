@@ -1,12 +1,17 @@
-const { CustomEmbed } = require('../libs');
-const quiz = require('../quiz.json');
+const { CustomEmbed, spreadsheet } = require('../libs');
+const spsheet = new spreadsheet();
 const { ButtonBuilder, ButtonStyle, ActionRowBuilder, Colors } = require('discord.js');
+let quiz;
+(async()=>{
+  const rawdata = await spsheet.all({ type: 'quizlist' });
+  quiz = rawdata.map(({ _rawData }) => ({ category: _rawData[0], question: _rawData[1], choices1: _rawData[2], choices2: _rawData[3], choices3: _rawData[4], choices4: _rawData[5], answer: _rawData[6], qid: _rawData[7] }))
+})();
 
 function createquiz(number) {
   const embed =
     new CustomEmbed()
       .setTitle(`カテゴリー:${quiz[number].category}`)
-      .setDescription(`${quiz[number].question}\n正解だと思う選択肢のボタンを押してください。`)
+      .setDescription(`${quiz[number].question}\n正解だと思う選択肢のボタンを押してください。\n\`qid:${quiz[number].qid}\``)
       .addFields([{
         name: '',
         value: `1:${quiz[number].choices1}`

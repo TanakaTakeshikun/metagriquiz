@@ -10,12 +10,9 @@
     }
   },
   "quiz": {
-    "resetTime": "0",
+    "resetTime": "15",
     "timeZone": "Asia/Tokyo",
     "checkTime": 10
   },
-  "db": {
-    "name": "test.db",
-    "tabel": "quiz"
-  }
+  "spreadsheet":"1Pi51uKKRQHoRPTDcKc57M12yjeb5ivBc_ZU3_fubFrA"
 }

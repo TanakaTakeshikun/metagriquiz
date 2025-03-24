@@ -1,12 +1,11 @@
 const { REST, Routes, Events, ActivityType, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
-const { SQLCommand } = require('../../libs');
+const { spreadsheet } = require('../../libs');
 const createquiz = require('../../helpers/createquiz');
 const setting = require('../../setting.json');
-const sql = new SQLCommand();
 const resetTime = setting.quiz.resetTime;
 let NowTime = new Date().toLocaleString({ timeZone: setting.quiz.timeZone });
 let NowHours = new Date(NowTime).getHours();
-
+const spsheet = new spreadsheet();
 module.exports = {
   name: Events.ClientReady,
   async execute(client, Log) {
@@ -32,7 +31,9 @@ module.exports = {
       if (resetTime == NowHours) {
         NowTime = new Date().toLocaleString({ timeZone: setting.quiz.timeZone });
         NowHours = new Date(NowTime).getHours();
-        const last_message = await sql.find({ type: 'system' });
+        const lastcount = await spsheet.all({ type: 'system' });
+        if (!lastcount) return;//rate limit 対策
+        const last_message = await spsheet.find({ type: 'system', count: lastcount.length });
         const OldTime = new Date(last_message?.date);
         const diff = new Date(NowTime).getTime() - OldTime.getTime();
         const checkTime = (diff == NaN) ? 25 : diff / (60 * 60 * 1000);
@@ -52,12 +53,8 @@ module.exports = {
         const message = await channel.send({
           embeds: [data.embed], components: [data.row]
         });
-        if (last_message) {
-          sql.update({ type: 'system', count: num + 1, mid: message.id });
-        } else {
-          sql.set({ type: 'system', count: num + 1, mid: message.id });
-        }
+        spsheet.set({ type: 'system', count: Number(num) + 1, mid: message.id, total_count: 0, answer_count: 0 });
       }
-    }, 60 * setting.quiz.checkTime * 1000);
+    }, 60 * setting.quiz.checkTime * 1000)
   }
 }
