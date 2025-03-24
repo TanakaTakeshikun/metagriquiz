@@ -1,8 +1,8 @@
 const { Client, GatewayIntentBits, Partials } = require('discord.js');
 const path = require('node:path');
-const { EventHandler, CommandsBuilder, spreadsheet } = require('./libs');
+const { EventHandler, CommandsBuilder } = require('./libs');
 const logger = require('./helpers/getLogger');
-const sp = new spreadsheet();
+const http = require("http");
 require('dotenv').config()
 const client = new Client({
     intents: Object.values(GatewayIntentBits),
@@ -21,3 +21,9 @@ process.on('uncaughtException', (error) => {
 });
 
 client.login(process.env.TOKEN);
+
+http
+    .createServer((request, response) => {
+        response.end("Discord bot is active now.");
+    })
+    .listen(3000);
