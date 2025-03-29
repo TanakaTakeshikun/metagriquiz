@@ -1,10 +1,13 @@
 # metagriquiz
+
 quizBOT
 
 ## 概要
+
 このファイルはDiscordクイズボットアプリケーションのメインエントリーポイントです。Discordクライアントの初期化、イベントハンドラの設定、コマンドの登録、そしてボットを起動状態に保つためのHTTPサーバーの作成を行います。
 
 ### 起動方法
+
 - setting.jsonの情報の書き込み
 - .envsampleの情報の書き込み
 - .envsampleを.envに名前を変更
@@ -16,29 +19,50 @@ quizBOT
 ## 主要コンポーネント
 
 ### Discordクライアント設定
+
 - 完全なインテント（権限）と特定のパーシャル（部分的データ）を持つDiscord.jsクライアントを初期化します
 - エラーログ記録を設定します
 - './events'ディレクトリからイベントハンドラを読み込みます
 - './commands'ディレクトリからコマンドを登録します
 
 ### エラー処理
+
 - グローバルな未捕捉例外処理を実装しています(index.js)
 
 ### 認証
+
 - 環境変数トークン（TOKEN）を使用してDiscordで認証します
 
 ### HTTPサーバー
+
 - ポート3000でHTTPサーバーを作成します
 - POSTリクエストを通じて「wake（起動維持）」メカニズムを実装していますGASからのrequestを行ってください
 - GETリクエストによる簡単なヘルスチェックエンドポイントを提供します
 - ボットが実行中の場合、「Discord Bot is Oprateing!」を返します
 
 ### 備考
+
 - ボットにはGoogle Apps Script（GAS）を使用して起動状態を維持するべきというコメントが含まれています
+GASSprict
+
+```js
+ function send(){
+  const URL = "https://necessary-verbose-glade.glitch.me"
+  response = UrlFetchApp.fetch(URL, {
+   'Content-Type': 'application/json; charset=utf-8',
+   'method': 'post',
+   'payload': {
+    'type': 'wake'
+   },
+   'muteHttpExceptions': true
+  });
+ }
+ ```
 
 # setting.json - Discord クイズボット設定ファイル
 
 ## 概要
+
 Discordクイズボットの運用に必要なすべての基本設定を含む設定ファイルです。
 
 ## 設定セクション
@@ -61,43 +85,48 @@ Discordクイズボットの運用に必要なすべての基本設定を含む�
   - フッターの著作権テキスト: "©️ 2025 Metagri研究所"
 
 ### クイズ設定
+
 - `resetTime`: クイズのリセット間隔（分）(5)
 - `timeZone`: タイムゾーン設定 ("Asia/Tokyo")
 - `checkTime`: 時間チェック間隔（分）(5)
 
 ### 外部連携
+
 - `spreadsheet`: クイズデータ保存用のGoogleスプレッドシートID (1Pi51uKKRQHoRPTDcKc57M12yjeb5ivBc_ZU3_fubFrA)
 
 # 規則
+
 基本的にシングルクォーテーションを使用
 命名規則に関しては自由
 PrefixList
+
 ```
 
-接頭辞	説明
-fix	既存の機能の問題を修正する場合に使用します。
-hotfix	緊急の変更を追加する場合に使用します。
-add	新しいファイルや機能を追加する場合に使用します。
-feat	新しい機能やファイルを追加する場合に使用します。
-update	既存の機能に問題がないが、修正を加えたい場合に使用します。
-change	仕様変更により、既存の機能に修正を加えた場合に使用します。
-clean/refactor	コードを修正し、改善する場合に使用します。
-improve	コードの改善をする場合に使用します。
-disable	機能を一時的に無効にする場合に使用します。
-remove/delete	ファイルを削除する場合や、機能を削除する場合に使用します。
-rename	ファイル名を変更する場合に使用します。
-move	ファイルを移動する場合に使用します。
-upgrade	バージョンをアップグレードする場合に使用します。
-revert	以前のコミットに戻す場合に使用します。
-docs	ドキュメントを修正する場合に使用します。
-style	コーディングスタイルの修正をする場合に使用します。
-perf	コードのパフォーマンスを改善する場合に使用します。
-test	テストコードを修正する場合や、テストコードを追加する場合に使用します。
-chore	ビルドツールやライブラリで自動生成されたものをコミットする場合や、上記の接頭辞に当てはまらない修正をする場合に使用します。
+接頭辞 説明
+fix 既存の機能の問題を修正する場合に使用します。
+hotfix 緊急の変更を追加する場合に使用します。
+add 新しいファイルや機能を追加する場合に使用します。
+feat 新しい機能やファイルを追加する場合に使用します。
+update 既存の機能に問題がないが、修正を加えたい場合に使用します。
+change 仕様変更により、既存の機能に修正を加えた場合に使用します。
+clean/refactor コードを修正し、改善する場合に使用します。
+improve コードの改善をする場合に使用します。
+disable 機能を一時的に無効にする場合に使用します。
+remove/delete ファイルを削除する場合や、機能を削除する場合に使用します。
+rename ファイル名を変更する場合に使用します。
+move ファイルを移動する場合に使用します。
+upgrade バージョンをアップグレードする場合に使用します。
+revert 以前のコミットに戻す場合に使用します。
+docs ドキュメントを修正する場合に使用します。
+style コーディングスタイルの修正をする場合に使用します。
+perf コードのパフォーマンスを改善する場合に使用します。
+test テストコードを修正する場合や、テストコードを追加する場合に使用します。
+chore ビルドツールやライブラリで自動生成されたものをコミットする場合や、上記の接頭辞に当てはまらない修正をする場合に使用します。
 参考:https://qiita.com/muranakar/items/20a7927ffa63a5ca226a
 ```
 
 # ファイル構造
+
 ```
 │  .env:各種環境変数の保管<commit不可>
 │  .env_sample:環境変数例<_sampleを消してください要変更>
@@ -153,5 +182,4 @@ chore	ビルドツールやライブラリで自動生成されたものをコ�
             SlashCommandManager.js:slashコマンドを適切に扱えるようにフォーマット<削除不可>
 ```
 
-
-Metagri研究所-https://github.com/TanakaTakeshikun
+Metagri研究所-<https://github.com/TanakaTakeshikun>
