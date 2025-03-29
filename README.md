@@ -68,7 +68,7 @@ Discordクイズボットの運用に必要なすべての基本設定を含む�
 ### 外部連携
 - `spreadsheet`: クイズデータ保存用のGoogleスプレッドシートID (1Pi51uKKRQHoRPTDcKc57M12yjeb5ivBc_ZU3_fubFrA)
 
-### 規則
+# 規則
 基本的にシングルクォーテーションを使用
 命名規則に関しては自由
 PrefixList
@@ -97,7 +97,7 @@ chore	ビルドツールやライブラリで自動生成されたものをコ�
 参考:https://qiita.com/muranakar/items/20a7927ffa63a5ca226a
 ```
 
-### ファイル構造
+# ファイル構造
 ```
 │  .env:各種環境変数の保管<commit不可>
 │  .env_sample:環境変数例<_sampleを消してください要変更>
