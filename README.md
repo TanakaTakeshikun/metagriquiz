@@ -47,7 +47,7 @@ GASSprict
 
 ```js
  function send(){
-  const URL = "https://necessary-verbose-glade.glitch.me"
+  const URL = "WEBURL"
   response = UrlFetchApp.fetch(URL, {
    'Content-Type': 'application/json; charset=utf-8',
    'method': 'post',
