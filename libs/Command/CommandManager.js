@@ -1,13 +1,22 @@
-const {  Guild, Channel, GuildMember, Snowflake, Message, CommandInteraction, Base } = require('discord.js');
+const { Guild, Channel, GuildMember, Snowflake, Message, CommandInteraction, Base } = require('discord.js');
 const { LoggerChannel } = require('../Logger');
 
 class CommandManager extends Base {
+    /**
+     * コマンドを管理するクラス
+     * @param {Client} client - Discordのクライアント
+     * @param {string} name - コマンド名
+     * @param {string} [subcommand1] - サブコマンド (オプション)
+     * @param {string} [subcommand2] - サブコマンド (オプション)
+     */
     constructor(client, name, subcommand1, subcommand2) {
         super(client);
         this._baseCommand = client.commands.get(name);
         if (!this._baseCommand) return;
+
         const subcommandNames = [subcommand1, subcommand2];
         let subcommands = this._baseCommand.subcommands;
+
         if ('subcommandGroups' in this._baseCommand) {
             const parentGroup = this._baseCommand.subcommandGroups.get(subcommandNames[0]);
             if (parentGroup) {
@@ -18,6 +27,7 @@ class CommandManager extends Base {
                 this._parentGroup = null;
             } else return;
         }
+
         if (subcommands) {
             this._command = subcommands.get(subcommandNames.shift());
             if (!this._command) return;
@@ -25,142 +35,86 @@ class CommandManager extends Base {
             this._command = this._baseCommand;
         }
 
-        /**
-         * コマンドの名前
-         * @type {string}
-         */
+        /** @type {string} コマンドの名前 */
         this.name = this._command.name;
 
-        /**
-         * コマンドの説明
-         * @type {string}
-         */
+        /** @type {string} コマンドの説明 */
         this.description = this._command.description;
 
-        /**
-         * コマンドのカテゴリ
-         * @type {string}
-         */
+        /** @type {string} コマンドのカテゴリ */
         this.category = this._command.category;
 
-        /**
-         * コマンドの関数
-         * @type {function}
-         */
+        /** @type {function} コマンドの実行関数 */
         this.execute = this._command.execute;
 
-        /**
-         * オートコンプリートの関数
-         * @type {function}
-         */
+        /** @type {function} オートコンプリートの関数 */
         this.autocomplete = this._command.autocomplete;
 
-        /**
-         * コマンドのロガー
-         * @type {LoggerChannel}
-         */
+        /** @type {LoggerChannel} コマンドのロガー */
         this.logger = this._command.logger;
     }
 
-    /**
-     * コマンドの種類 (Managers.Message or Managers.Slash)
-     * @type {Managers}
-     */
+    /** @type {Managers} コマンドの種類 (Managers.Message or Managers.Slash) */
     type = null;
 
-    /**
-     * コマンドが実行されたメッセージ (メッセージコマンドのみ)
-     * @type {Message|null}
-     */
+    /** @type {Message|null} コマンドが実行されたメッセージ (メッセージコマンドのみ) */
     message = null;
 
-    /**
-     * コマンドが実行されたスラッシュインタラクション (スラッシュコマンドのみ)
-     * @type {CommandInteraction|null}
-     */
+    /** @type {CommandInteraction|null} コマンドが実行されたスラッシュインタラクション (スラッシュコマンドのみ) */
     interaction = null;
 
-    /**
-     * コマンドのID
-     * @type {Snowflake}
-     */
+    /** @type {Snowflake} コマンドのID */
     id = null;
 
-    /**
-     * コマンドが実行されたギルド (ギルド内のみ)
-     * @type {Guild|null}
-     */
+    /** @type {Guild|null} コマンドが実行されたギルド (ギルド内のみ) */
     guild = null;
 
-    /**
-     * コマンドが実行されたギルドのID (ギルド内のみ)
-     * @type {Snowflake|null}
-     */
+    /** @type {Snowflake|null} コマンドが実行されたギルドのID (ギルド内のみ) */
     guildId = null;
 
-    /**
-     * コマンドが実行されたチャンネル
-     * @type {Channel}
-     */
+    /** @type {Channel} コマンドが実行されたチャンネル */
     channel = null;
 
-    /**
-     * コマンドが実行されたチャンネルのID
-     * @type {Snowflake}
-     */
+    /** @type {Snowflake} コマンドが実行されたチャンネルのID */
     channelId = null;
 
-    /**
-     * コマンドを実行したメンバー (ギルド内のみ)
-     * @type {GuildMember|null}
-     */
+    /** @type {GuildMember|null} コマンドを実行したメンバー (ギルド内のみ) */
     member = null;
 
-    /**
-     * コマンドが実行された日時
-     * @type {Date}
-     */
+    /** @type {Date} コマンドが実行された日時 */
     createdAt = null;
 
-    /**
-     * コマンドが実行された時のタイムスタンプ
-     * @type {number}
-     */
+    /** @type {number} コマンドが実行された時のタイムスタンプ */
     createdTimestamp = null;
 
-    /**
-     * コマンドのプレフィックス
-     * @type {string}
-     */
+    /** @type {string} コマンドのプレフィックス */
     prefix = '/';
 
-    /**
-     * コマンドの引数 (引数がない時はnull)
-     * @type {CommandInteractionOptionResolver}
-     */
+    /** @type {CommandInteractionOptionResolver|null} コマンドの引数 (引数がない時はnull) */
     options = null;
 
     /**
      * コマンドに返信します。
      * ephemeralをnullにするとスラッシュコマンドの場合はtrueになり、メッセージコマンドの場合はそのまま返信します。
      * ephemeralをtrueにするとメッセージコマンドの場合はDMに内容を送信し、そのメッセージのURLを送信しそのメッセージを10秒後に削除します。
-     * @param {string|MessagePayload|InteractionReplyOptions} options
-     * @returns {Promise<Message>|Promise<MessageResponse>|Promise<InteractionResponse>}
+     * 
+     * @param {string|MessagePayload|InteractionReplyOptions} options - 返信の内容
+     * @returns {Promise<Message>|Promise<InteractionResponse>} 返信されたメッセージ
      */
-    reply() { }
+    reply(options) { }
 
     /**
-     * Fetch the reply to this command.
-     * @returns {Promise<Message>}
+     * コマンドの実行結果を取得します。
+     * @returns {Promise<Message>} コマンドの返信メッセージ
      */
     withResponse() { }
 
     /**
-     * Defers the reply to this interaction.
-     * @param {InteractionDeferReplyOptions}
-     * @returns {Promise<Message>|Promise<MessageResponse>|Promise<InteractionResponse>}
+     * コマンドの返信を遅延させます。
+     * @param {InteractionDeferReplyOptions} options - 遅延返信のオプション
+     * @returns {Promise<InteractionResponse>} 遅延返信のレスポンス
      */
-    deferReply() { }
+    deferReply(options) { }
 
 }
 

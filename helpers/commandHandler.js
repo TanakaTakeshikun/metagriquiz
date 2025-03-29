@@ -1,21 +1,36 @@
 const { CustomEmbed, Command } = require('../libs');
 
+/**
+ * コマンドを実行し、エラーが発生した場合に適切な処理を行う関数
+ * 
+ * @async
+ * @param {Object} command - 実行するコマンドオブジェクト
+ * @returns {Promise<void>}
+ */
 async function commandHandler(command) {
     try {
-        await command.execute(command)
+        await command.execute();
     } catch (error) {
         command.logger.error(error);
+
+        // エラー応答用のEmbed作成
         const embed = new CustomEmbed('error').typeError();
-        if (error.message === 'Missing Permissions') {
-            embed.setDescription('権限が足りません。\nBOTに権限を与えてください')
-        } else {
-            embed.setDescription(`不明なエラーが発生しました。\n詳細:${error.message}\n運営に問い合わせていただけると幸いです。`)
+
+        switch (error.message) {
+            case 'Missing Permissions':
+                embed.setDescription('権限が足りません。\nBOTに権限を与えてください');
+                break;
+            default:
+                embed.setDescription(`不明なエラーが発生しました。\n詳細: ${error.message}\n運営に問い合わせていただけると幸いです。`);
         }
-        if (command.type === Command.Managers.Message) {
-            command.reply({ embeds: [embed] }).catch(() => { });
-        } else {
-            command.reply({ embeds: [embed], ephemeral: true }).catch(() => { });
+
+        // メッセージタイプに応じた返信処理
+        const replyOptions = { embeds: [embed] };
+        if (command.type !== Command.Managers.Message) {
+            replyOptions.ephemeral = true;
         }
+
+        command.reply(replyOptions).catch(() => { });
     }
 }
 

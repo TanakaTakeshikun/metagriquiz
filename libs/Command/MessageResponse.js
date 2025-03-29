@@ -2,25 +2,36 @@ const { DiscordSnowflake } = require('@sapphire/snowflake');
 const { InteractionCollector } = require('discord.js');
 
 /**
- * Represents an message response
+ * メッセージレスポンスを表すクラス
+ * @class
  */
 class MessageResponse {
+    /**
+     * @param {import('discord.js').Message} message - 対応するメッセージ
+     * @param {import('discord.js').Snowflake} [id] - レスポンスのID (省略時は `message.id`)
+     */
     constructor(message, id) {
         /**
-         * The message associated with the message response
-         * @type {Message}
+         * レスポンスに関連するメッセージ
+         * @type {import('discord.js').Message}
          */
         this.message = message;
+
         /**
-         * The id of the original message response
-         * @type {Snowflake}
+         * レスポンスのID
+         * @type {import('discord.js').Snowflake}
          */
         this.id = id ?? message.id;
+
+        /**
+         * クライアントインスタンス
+         * @type {import('discord.js').Client}
+         */
         this.client = message.client;
     }
 
     /**
-     * The timestamp the message response was created at
+     * レスポンスが作成されたタイムスタンプ (ミリ秒)
      * @type {number}
      * @readonly
      */
@@ -29,7 +40,7 @@ class MessageResponse {
     }
 
     /**
-     * The time the message response was created at
+     * レスポンスが作成された日時
      * @type {Date}
      * @readonly
      */
@@ -38,18 +49,18 @@ class MessageResponse {
     }
 
     /**
-     * Collects a single component message that passes the filter.
-     * The Promise will reject if the time expires.
-     * @param {AwaitMessageComponentOptions} [options={}] Options to pass to the internal collector
-     * @returns {Promise<MessageComponentInteraction>}
+     * 指定したフィルターに一致するコンポーネントのインタラクションを1つ待機します。
+     * 指定した時間が経過すると `Promise` は拒否されます。
+     * @param {import('discord.js').AwaitMessageComponentOptions} [options={}] - コレクターのオプション
+     * @returns {Promise<import('discord.js').MessageComponentInteraction>}
      */
     awaitMessageComponent(options = {}) {
         return this.message.awaitMessageComponent(options);
     }
 
     /**
-     * Creates a message component message collector
-     * @param {MessageComponentCollectorOptions} [options={}] Options to send to the collector
+     * メッセージコンポーネントのインタラクションを収集するコレクターを作成します。
+     * @param {import('discord.js').MessageComponentCollectorOptions} [options={}] - コレクターのオプション
      * @returns {InteractionCollector}
      */
     createMessageComponentCollector(options) {
@@ -57,15 +68,15 @@ class MessageResponse {
     }
 
     /**
-     * Fetches the response as a {@link Message} object.
-     * @returns {Promise<Message>}
+     * メッセージレスポンスを取得します。
+     * @returns {Promise<import('discord.js').Message>}
      */
-    async fetch() {
-        return this.message
+    fetch() {
+        return Promise.resolve(this.message);
     }
 
     /**
-     * Deletes the response.
+     * レスポンスを削除します。
      * @returns {Promise<void>}
      */
     delete() {
@@ -73,9 +84,9 @@ class MessageResponse {
     }
 
     /**
-     * Edits the response.
-     * @param {string|MessagePayload|WebhookMessageEditOptions} options The new options for the response.
-     * @returns {Promise<Message>}
+     * レスポンスを編集します。
+     * @param {string | import('discord.js').MessagePayload | import('discord.js').WebhookMessageEditOptions} options - 新しいメッセージ内容
+     * @returns {Promise<import('discord.js').Message>}
      */
     edit(options) {
         return this.message.edit(options);
