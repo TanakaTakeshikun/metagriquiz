@@ -1,23 +1,23 @@
 {
   "bot": {
-    "serverid": "1180301484206866532",
-    "channelid": "1194134990720618536",
+    "serverid": "951780348465909820",
+    "channelid": "1353146559717703732",
     "activitiename":"クイズBOT",
-    "tokenchannel":"1353616686900711484",
-    "pointchannel":"1353616708471881789",
-    "tokenroleid":"1193881233994829874",
-    "tokenbotid":"1010895517192028280",
-    "pointobotid":"1010895517192028280",
+    "tokenchannel":"1084627990559858810",
+    "pointchannel":"1199867735224619088",
+    "tokenroleid":"1115455932239986738",
+    "tokenbotid":"1068392400684339210",
+    "pointobotid":"1189072177425821707",
     "embed": {
       "Footer": {
-        "CR": "©️ 2025 Metaguri研究所"
+        "CR": "©️ 2025 Metagri研究所"
       }
     }
   },
   "quiz": {
-    "resetTime": "15",
+    "resetTime": "8",
     "timeZone": "Asia/Tokyo",
-    "checkTime": 10
+    "checkTime": 2
   },
   "spreadsheet":"1Pi51uKKRQHoRPTDcKc57M12yjeb5ivBc_ZU3_fubFrA"
 }

@@ -4,10 +4,9 @@ const setting = require('../setting.json');
 require('dotenv').config();
 const serviceAccountAuth = new JWT({
   email: process.env.email,
-  key: process.env.PRIVATEKEY,
+  key: process.env.PRIVATEKEY.replace(/\\n/g, '\n'),
   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 });
-
 class SpreadSheetService {
   /**
    * コンストラクター
@@ -34,8 +33,8 @@ class SpreadSheetService {
     if (!(type == 'members' || type == 'system')) return 'Not Type';
     await this.doc.loadInfo().catch(() => 'limit req');
     const sheet = this.doc.sheetsByTitle[type];
-    if (type === 'members') return await sheet.addRow({ uid: uid, date: new Date(new Date().toLocaleString({ timeZone: setting.quiz.timeZone })), count: count, mid: mid, allcount: allcount });
-    if (type === 'system') return await sheet.addRow({ date: new Date(new Date().toLocaleString({ timeZone: setting.quiz.timeZone })), count: count, mid: mid, answer_count: answer_count, total_count: total_count });
+    if (type === 'members') return await sheet.addRow({ uid: uid, date: new Date().toLocaleString({ timeZone: setting.quiz.timeZone }), count: count, mid: mid, allcount: allcount });
+    if (type === 'system') return await sheet.addRow({ date: new Date().toLocaleString({ timeZone: setting.quiz.timeZone }), count: count, mid: mid, answer_count: answer_count, total_count: total_count });
   }
   /**
    * データを取得する
@@ -71,13 +70,13 @@ class SpreadSheetService {
     for (const row of rows) {
       if (type === 'members') {
         if (row._rawData[0] === uid) {
-          row._rawData = [uid || null, date || new Date(new Date().toLocaleString({ timeZone: setting.quiz.timeZone })), count || null, mid || null, allcount || null]
+          row._rawData = [uid || null, date || null, count || null, mid || null, allcount || null]
           await row.save()
         }
       }
       if (type === 'system') {
         if (row._rawData[1] == count || row._rawData[0] == mid) {
-          row._rawData = [mid || null, count || null, date || new Date(new Date().toLocaleString({ timeZone: setting.quiz.timeZone })), answer_count || null, total_count || null]
+          row._rawData = [mid || null, count || null, date || null, answer_count || null, total_count || null]
           await row.save()
         }
       }
